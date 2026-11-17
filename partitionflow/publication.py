@@ -4,9 +4,13 @@ from .storage import atomic, connect
 
 DDL="""
 CREATE TABLE IF NOT EXISTS source_partitions(region TEXT,day TEXT,version INTEGER,checksum TEXT,payload TEXT,PRIMARY KEY(region,day,version));
+CREATE TABLE IF NOT EXISTS source_deliveries(region TEXT,day TEXT,checksum TEXT,delivered_at TEXT,PRIMARY KEY(region,day,checksum,delivered_at));
 CREATE TABLE IF NOT EXISTS daily(region TEXT,day TEXT,version INTEGER,payload TEXT,source_checksum TEXT,PRIMARY KEY(region,day,version));
 CREATE TABLE IF NOT EXISTS weekly(week TEXT,checksum TEXT,inputs TEXT,people INTEGER,PRIMARY KEY(week,checksum));
 CREATE TABLE IF NOT EXISTS releases(name TEXT PRIMARY KEY,payload TEXT);
+CREATE TABLE IF NOT EXISTS runs(run_id TEXT PRIMARY KEY,kind TEXT,spec TEXT,status TEXT,fence INTEGER,config_path TEXT,clock TEXT,created_at TEXT,updated_at TEXT);
+CREATE TABLE IF NOT EXISTS run_steps(run_id TEXT,step_id TEXT,scope TEXT,target TEXT,pinned TEXT,status TEXT,result_ref TEXT,attempts INTEGER NOT NULL DEFAULT 0,error TEXT,updated_at TEXT,PRIMARY KEY(run_id,step_id));
+CREATE TABLE IF NOT EXISTS current_entries(scope TEXT,key TEXT,payload TEXT,pins TEXT,fence INTEGER,run_id TEXT,updated_at TEXT,PRIMARY KEY(scope,key));
 """
 
 
