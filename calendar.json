@@ -1,0 +1,8 @@
+{
+  "regions": {
+    "东": "Asia/Shanghai",
+    "西": "Asia/Urumqi"
+  },
+  "national_timezone": "UTC",
+  "week_start": "monday"
+}
